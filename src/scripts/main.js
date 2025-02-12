@@ -4,7 +4,7 @@ const table = document.querySelector('table');
 const rowsArray = Array.from(table.rows);
 const columnsOrder = [0, 1, 2, 3, 1, 4];
 
-// Detach table to optimise handling of large tables
+// Detach table to optimize handling of large tables
 const tableParent = table.parentNode;
 
 tableParent.removeChild(table);
@@ -12,9 +12,19 @@ tableParent.removeChild(table);
 rowsArray.forEach((row) => {
   const cellsArray = Array.from(row.cells);
   const rowFragment = document.createDocumentFragment();
+  const rowLength = cellsArray.length;
 
   columnsOrder.forEach((index) => {
-    rowFragment.appendChild(cellsArray[index].cloneNode(true));
+    let cellContent;
+
+    if (index < rowLength) {
+      cellContent = cellsArray[index].cloneNode(true);
+    } else {
+      cellContent = document.createElement('td');
+      cellContent.textContent = 'no data';
+    }
+
+    rowFragment.appendChild(cellContent);
   });
 
   row.innerHTML = '';
